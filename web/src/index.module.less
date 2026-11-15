@@ -1,0 +1,101 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #efeff4;
+}
+
+html {
+  height: calc(100% + env(safe-area-inset-top, 0px));
+  min-height: calc(100% + env(safe-area-inset-top, 0px));
+}
+
+body,
+#root {
+  height: 100%;
+  min-height: 100%;
+}
+
+:global(.spa-route-page) {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+:global(.channel-route-page) {
+  max-width: none;
+}
+
+body {
+  background: #efeff4;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+:global(body.page-enter) #root {
+  animation: page-enter 180ms ease both;
+}
+
+:global(html.page-leave) body {
+  animation: page-leave 180ms ease both;
+}
+
+:global(::view-transition-old(root)),
+:global(::view-transition-new(root)) {
+  animation-duration: 180ms;
+  animation-timing-function: ease;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-leave {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(body.page-enter) #root,
+  :global(html.page-leave) body {
+    animation: none;
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/* Prevent mobile browsers (especially iOS Safari) from zooming on input focus. */
+:global(html),
+:global(body) {
+  touch-action: manipulation;
+}
+
+@media (max-width: 600px) {
+  :global(input),
+  :global(textarea),
+  :global(select) {
+    font-size: 16px !important;
+  }
+}
+
+p {
+  margin-bottom: 0 !important;
+}

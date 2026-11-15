@@ -1,0 +1,148 @@
+.warp {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+  padding: calc(28px + env(safe-area-inset-top)) 20px calc(28px + env(safe-area-inset-bottom));
+  background: #f5f5f7;
+}
+
+.card {
+  box-sizing: border-box;
+  align-self: flex-start;
+  width: min(100%, 460px);
+  padding: 24px 20px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+}
+
+.header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.title {
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: #98a2b3;
+  font-size: 13px;
+}
+
+.state {
+  padding: 24px 0;
+  color: #667085;
+  font-size: 14px;
+  text-align: center;
+
+  p {
+    margin-top: 12px;
+  }
+}
+
+.errorText {
+  color: #ff3b30;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.info,
+.checks,
+.form,
+.done {
+  & + & {
+    margin-top: 20px;
+  }
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid #f0f1f3;
+  color: #667085;
+  font-size: 14px;
+
+  strong {
+    color: #344054;
+    font-weight: 600;
+  }
+}
+
+.ok {
+  color: #12b76a !important;
+}
+
+.bad {
+  color: #f04438 !important;
+}
+
+.sectionTitle {
+  margin-bottom: 10px;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  color: #475467;
+  font-size: 14px;
+
+  i {
+    display: inline-block;
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  em {
+    margin-left: auto;
+    color: #98a2b3;
+    font-size: 13px;
+    font-style: normal;
+  }
+}
+
+.dotOk {
+  background: #12b76a;
+}
+
+.dotBad {
+  background: #f04438;
+}
+
+.input {
+  height: 48px;
+  margin-bottom: 12px;
+  font-size: 16px;
+
+  input {
+    font-size: 16px;
+  }
+}
+
+.hint {
+  margin: 12px 0 16px;
+  color: #98a2b3;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.done {
+  p {
+    margin-bottom: 14px;
+    color: #344054;
+    font-size: 15px;
+  }
+}

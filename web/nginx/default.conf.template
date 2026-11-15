@@ -1,0 +1,87 @@
+# 瞬间 · nginx 站点配置（构建时放在 /etc/nginx/templates/default.conf.template）
+# 官方镜像启动时只替换已定义的环境变量，${MAX_UPLOAD_MB} 来自 compose；
+# $uri / $host 这类 nginx 变量不会被 envsubst 动到。
+
+server {
+    listen 80;
+    server_name _;
+    server_tokens off;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # 与后端 MAX_UPLOAD_MB 保持一致，避免 nginx 先返回 413
+    client_max_body_size ${MAX_UPLOAD_MB}M;
+
+    # 前端构建会同时产出 .gz，直接发压缩产物，省 CPU
+    gzip_static on;
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 5;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css application/javascript application/json application/xml image/svg+xml;
+
+    # 入口页不缓存，保证升级后立刻拿到新的 hash 资源
+    location = /index.html {
+        add_header Cache-Control "no-store, must-revalidate";
+    }
+
+    # 带 hash 的产物可以长缓存
+    location /assets/ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+        access_log off;
+    }
+
+    location = /favicon.ico {
+        expires 7d;
+        access_log off;
+    }
+
+    # 按需缩略图：磁盘没有就回源到 app，app 用 gm 生成 webp 后 302 回 /static/compress/…
+    # 用 error_page 而不是 try_files，避开 alias + try_files 的路径解析问题
+    location ^~ /static/compress/ {
+        alias /data/uploads/compress/;
+        error_page 404 = @compress_server;
+        expires 7d;
+        add_header Cache-Control "public, max-age=604800";
+        access_log off;
+    }
+
+    # 原图与视频由 nginx 直出，原生支持 Range，视频可以拖动
+    location ^~ /static/ {
+        alias /data/uploads/;
+        expires 7d;
+        add_header Cache-Control "public, max-age=604800";
+        access_log off;
+    }
+
+    # 回源到 Node：保持原始 URI，让 staticNotFound 按 /static/compress/... 解析
+    location @compress_server {
+        proxy_pass http://app:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 10s;
+        proxy_read_timeout 60s;
+    }
+
+    location /api/ {
+        proxy_pass http://app:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout 120s;
+        proxy_read_timeout 120s;
+    }
+
+    # SPA 兜底（前端是 HashRouter，这一条主要兼容 /setup.html 之类的旧链接）
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

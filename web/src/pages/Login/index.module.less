@@ -1,0 +1,50 @@
+.loginWarp {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: calc(24px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));
+  background: #ffffff;
+
+  .loginPanel {
+    width: min(100%, 380px);
+  }
+
+  .nameInput,
+  .credentialInput {
+    height: 50px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #ffffff;
+
+    input {
+      color: #1a1a1a;
+      font-size: 16px;
+    }
+
+    input::placeholder {
+      color: #999999;
+    }
+  }
+
+  .credentialInput {
+    margin-top: 14px;
+    margin-bottom: 14px;
+  }
+
+  .loginButton {
+    height: 50px;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+    background: #1a1a1a;
+    font-size: 16px;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      border-color: #1a1a1a !important;
+      background: #1a1a1a !important;
+    }
+  }
+}

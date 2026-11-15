@@ -1,0 +1,82 @@
+.warp {
+  display: flex;
+  background-color: #efeff4;
+  min-height: calc(100% - 48px - env(safe-area-inset-top, 0px));
+
+  .content {
+    flex: 1 1 auto;
+    overflow: auto;
+
+    .deleteBtn {
+      display: block;
+      margin: 24px auto;
+    }
+
+    .list {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 8px;
+      background-color: #efeff4;
+
+      @media (max-width: 599px) {
+        padding-left: 8px;
+        padding-right: 8px;
+        box-sizing: border-box;
+      }
+    }
+
+    .photosWarp {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 2px;
+      padding: 2px;
+
+      .photoItem {
+        aspect-ratio: 1;
+        background-color: #eee;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        overflow: hidden;
+        cursor: pointer;
+      }
+    }
+
+    .progressWrap {
+      position: fixed;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      z-index: 99;
+
+      .progressBar {
+        width: 80px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 2px;
+        overflow: hidden;
+
+        .progressFill {
+          height: 100%;
+          background: #fff;
+          border-radius: 2px;
+          transition: width 0.3s ease;
+        }
+      }
+
+      .progressText {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.85);
+        white-space: nowrap;
+      }
+    }
+  }
+}

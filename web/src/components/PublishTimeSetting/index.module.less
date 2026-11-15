@@ -1,0 +1,59 @@
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.035);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  & + & {
+    margin-top: 12px;
+  }
+}
+
+.label {
+  color: #667085;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.hint {
+  margin-top: 10px;
+  color: #98a2b3;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.picker {
+  min-width: 154px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid #e4e8ee;
+  border-radius: 9px;
+  background: #fafbfc;
+  color: #344054;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (max-width: 430px) {
+  .timeRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .picker {
+    width: 100%;
+  }
+}

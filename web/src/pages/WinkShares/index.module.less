@@ -1,0 +1,144 @@
+.page {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(32px + env(safe-area-inset-bottom, 0px));
+  background: #f7f7f8;
+  color: #1c1c1e;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  margin-bottom: 14px;
+
+  h1 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+  }
+}
+
+.backButton,
+.headerSpace {
+  width: 34px;
+  height: 34px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+  color: #3d4350;
+  cursor: pointer;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  position: relative;
+  min-height: 104px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  background: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.thumb,
+.noImage {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 80px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f1f5;
+  color: #a0a4ad;
+  font-size: 12px;
+}
+
+.cardBody {
+  min-width: 0;
+  flex: 1;
+}
+
+.preview,
+.date,
+.expire {
+  overflow: hidden;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview {
+  color: #343944;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.date,
+.expire {
+  margin-top: 6px;
+  color: #a0a4ad;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.expire {
+  margin-top: 0;
+  color: #6973c9;
+}
+
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #a8abb4;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.deleteButton:active {
+  background: #f4f4f6;
+  color: #e06f78;
+}
+
+.loading {
+  padding: 12px 2px;
+}
+
+.empty {
+  padding: 76px 16px;
+  color: #a0a4ad;
+  font-size: 14px;
+  text-align: center;
+}

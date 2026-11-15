@@ -1,0 +1,152 @@
+.app {
+  background-color: #efeff4;
+  padding-bottom: 88px;
+  padding-top: calc(4px + env(safe-area-inset-top, 0px));
+  min-height: 100%;
+
+  .randomTip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: calc(100% - 16px);
+    max-width: 600px;
+    min-height: 58px;
+    margin: 8px auto 12px;
+    padding: 10px 14px 10px 16px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    background: #fff;
+    color: #253858;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease;
+
+    &:hover {
+      border-color: rgba(15, 23, 42, 0.14);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  .randomTipText {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+
+    strong {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    small {
+      overflow: hidden;
+      color: #8492aa;
+      font-size: 11px;
+      line-height: 16px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .randomTipAction {
+    flex: 0 0 auto;
+    color: #4267c7;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .list {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #efeff4;
+
+    @media (max-width: 599px) {
+      padding-left: 8px;
+      padding-right: 8px;
+      box-sizing: border-box;
+    }
+  }
+
+  .status {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .loadMore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    background-color: #fff;
+    margin: 32px;
+    border-radius: 4px;
+  }
+
+  .noData {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.18);
+    color: #fff;
+  }
+
+  .progressWrap {
+    position: fixed;
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 99;
+    transition: bottom 0.58s ease-in-out;
+
+    .progressBar {
+      width: 80px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      overflow: hidden;
+
+      .progressFill {
+        height: 100%;
+        background: #fff;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .progressText {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+      white-space: nowrap;
+    }
+  }
+
+  .progressDown {
+    bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}

@@ -1,0 +1,277 @@
+.winkDetail {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(128px + env(safe-area-inset-bottom, 0px));
+
+  .winkItemBox {
+    border: 1px solid #eee;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .detailSkeleton {
+    min-height: 164px;
+    box-sizing: border-box;
+    padding: 16px;
+    background: #fff;
+  }
+
+  .detailError {
+    padding: 56px 16px;
+    background: #fff;
+    color: #9aa1ad;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .shareExpireHint {
+    padding: 8px 16px 0;
+    color: #9aa1ad;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  .skeletonBlock {
+    display: block;
+    background: linear-gradient(100deg, #eef0f4 20%, #f8f9fb 38%, #eef0f4 56%);
+    background-size: 300% 100%;
+    animation: detailSkeletonShimmer 1.4s ease-in-out infinite;
+  }
+
+  .skeletonHeader {
+    display: flex;
+    align-items: center;
+  }
+
+  .skeletonAvatar {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+  }
+
+  .skeletonMeta {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 12px;
+  }
+
+  .skeletonName {
+    width: 88px;
+    height: 14px;
+    border-radius: 4px;
+  }
+
+  .skeletonTime {
+    width: 64px;
+    height: 11px;
+    border-radius: 4px;
+  }
+
+  .skeletonAction {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+  }
+
+  .skeletonBody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .skeletonLine {
+    height: 14px;
+    border-radius: 4px;
+  }
+
+  .skeletonLineLong {
+    width: 92%;
+  }
+
+  .skeletonLineMedium {
+    width: 72%;
+  }
+
+  .skeletonLineShort {
+    width: 46%;
+  }
+
+  .commentSkeleton {
+    box-sizing: border-box;
+    margin-top: 32px;
+    padding: 16px;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .commentSkeletonTitle {
+    width: 72px;
+    height: 16px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+  }
+
+  .commentSkeletonItem {
+    display: flex;
+    gap: 10px;
+    padding: 14px 0;
+    border-top: 1px solid #f1f2f5;
+  }
+
+  .commentSkeletonAvatar {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+  }
+
+  .commentSkeletonContent {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .commentSkeletonName {
+    width: 76px;
+    height: 12px;
+    border-radius: 4px;
+  }
+
+  .commentSkeletonText,
+  .commentSkeletonTextShort {
+    height: 13px;
+    border-radius: 4px;
+  }
+
+  .commentSkeletonText {
+    width: 90%;
+  }
+
+  .commentSkeletonTextShort {
+    width: 58%;
+  }
+
+  @keyframes detailSkeletonShimmer {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skeletonBlock {
+      animation: none;
+    }
+  }
+
+  .commentBox {
+    border: 1px solid #eee;
+    border-radius: 16px;
+    background: #fff;
+    overflow: hidden;
+    margin-top: 32px;
+
+    :global(.adm-list) {
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    :global(.adm-list-header) {
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+    }
+  }
+
+  .bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    padding: 0 16px env(safe-area-inset-bottom, 0px);
+
+    .upload {
+      // display: none;
+      height: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .inputBox {
+      flex: 1 1 0;
+      margin-right: 8px;
+    }
+
+    .sendBtn {
+      margin-left: 8px;
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    // 头像
+    img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    //
+    .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      padding-left: 10px;
+
+      .name {
+        margin: 0;
+        color: #4b5563;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+      }
+
+      .time {
+        margin: 0;
+        color: #9aa1ad;
+        font-size: 11px;
+        font-weight: 400;
+        line-height: 16px;
+      }
+    }
+
+    .delete {
+      margin-left: auto;
+      cursor: pointer;
+      font-size: 12px;
+      color: lightpink;
+    }
+  }
+
+  .content {
+    margin: 12px 0 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 21px;
+    color: #333;
+  }
+}

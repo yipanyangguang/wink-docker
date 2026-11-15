@@ -1,0 +1,231 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: #eef1f6;
+  color: #1f2937;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  flex: 0 0 auto;
+  height: calc(56px + env(safe-area-inset-top, 0px));
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top, 0px) 12px 0;
+  background: rgba(255, 255, 255, 0.78);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #58667c;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+
+  &:hover {
+    background: rgba(45, 72, 115, 0.08);
+    color: #253858;
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.56;
+  }
+}
+
+.counter {
+  overflow: hidden;
+  color: #455268;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loadingButton {
+  :global(.anticon) {
+    animation: randomSpin 0.9s linear infinite;
+  }
+}
+
+.content {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 20px 16px 28px;
+  box-sizing: border-box;
+}
+
+.swiper {
+  width: min(100%, 600px);
+  height: min(100%, 720px);
+  --height: min(100%, 720px);
+  --width: 100%;
+  --border-radius: 16px;
+}
+
+.cardViewport {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  border-radius: 18px;
+  scrollbar-width: thin;
+}
+
+.winkCard {
+  min-height: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0 !important;
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 18px !important;
+  box-shadow: 0 10px 28px rgba(35, 52, 80, 0.08);
+}
+
+.emptyState,
+.skeletonCard {
+  width: min(100%, 600px);
+  box-sizing: border-box;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(35, 52, 80, 0.08);
+}
+
+.emptyState {
+  padding: 56px 24px;
+  color: #8a94a6;
+  font-size: 14px;
+  text-align: center;
+
+  p {
+    margin: 0 0 18px;
+  }
+
+  button {
+    height: 34px;
+    padding: 0 16px;
+    border: 1px solid #cbd8f4;
+    border-radius: 9px;
+    background: #f3f7ff;
+    color: #4267c7;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+}
+
+.skeletonCard {
+  min-height: 320px;
+  padding: 18px;
+}
+
+.skeletonBlock {
+  display: block;
+  background: linear-gradient(100deg, #eef0f4 20%, #f8f9fb 38%, #eef0f4 56%);
+  background-size: 300% 100%;
+  animation: randomSkeletonShimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.skeletonAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.skeletonMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-left: 12px;
+}
+
+.skeletonName {
+  width: 90px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.skeletonTime {
+  width: 68px;
+  height: 11px;
+  border-radius: 4px;
+}
+
+.skeletonLine {
+  height: 15px;
+  margin-top: 12px;
+  border-radius: 4px;
+}
+
+.skeletonLineLong {
+  width: 92%;
+}
+
+.skeletonLineMedium {
+  width: 75%;
+}
+
+.skeletonLineShort {
+  width: 48%;
+}
+
+@keyframes randomSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes randomSkeletonShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 16px 12px 22px;
+  }
+
+  .swiper {
+    height: min(100%, 680px);
+    --height: min(100%, 680px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iconButton,
+  .skeletonBlock {
+    transition: none;
+    animation: none;
+  }
+}

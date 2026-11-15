@@ -1,0 +1,163 @@
+# 瞬间 · 四容器单端口编排
+# 只有 web(nginx) 发布端口；mongo / redis / app 都在内部网络里，用服务名互连。
+# 所有可变项都在 .env（由 install.sh 生成），改这里之前先看 .env.example。
+
+name: wink
+
+services:
+  mongo:
+    image: ${MONGO_IMAGE:-mongo:7}
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-wink}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?请先在 .env 里设置 MONGO_PASSWORD（可执行 ./install.sh 自动生成）}
+      MONGO_INITDB_DATABASE: wink
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      # depends_on 的 service_healthy 依赖这一条；只 ping，不做业务查询
+      test:
+        - CMD-SHELL
+        - >-
+          mongosh --quiet --host 127.0.0.1
+          --username "$$MONGO_INITDB_ROOT_USERNAME"
+          --password "$$MONGO_INITDB_ROOT_PASSWORD"
+          --authenticationDatabase admin
+          --eval "quit(db.adminCommand({ping:1}).ok ? 0 : 1)"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - wink
+
+  redis:
+    image: ${REDIS_IMAGE:-redis:7-alpine}
+    restart: unless-stopped
+    # 只做缓存与分享 TTL，开 AOF 保证重启后分享链接不失效
+    command:
+      - redis-server
+      - --requirepass
+      - ${REDIS_PASSWORD:?请先在 .env 里设置 REDIS_PASSWORD（可执行 ./install.sh 自动生成）}
+      - --appendonly
+      - "yes"
+      - --appendfsync
+      - everysec
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      # 仅供 healthcheck 用，不参与业务逻辑
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli --no-auth-warning -a \"$$REDIS_PASSWORD\" ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - wink
+
+  app:
+    build:
+      context: ./app
+    restart: unless-stopped
+    init: true
+    # 用宿主机用户的 uid/gid 跑，上传卷里的文件属主与宿主机一致，不会出现「容器能写、宿主机删不掉」
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      NODE_ENV: production
+      # 容器内固定值，使用者不需要配
+      APP_PORT: "3000"
+      MONGO_HOST: mongo
+      MONGO_PORT: "27017"
+      MONGO_DB: wink
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      STORAGE_DIR: /data/uploads
+      BACKUP_DIR: /data/backups
+      # 来自 .env
+      SITE_NAME: ${SITE_NAME:-瞬间}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      MONGO_USER: ${MONGO_USER:-wink}
+      MONGO_PASSWORD: ${MONGO_PASSWORD:?}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-100}
+    volumes:
+      - ${UPLOADS_DIR:-./data/uploads}:/data/uploads
+      - ${BACKUPS_DIR:-./data/backups}:/data/backups
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      # /api/health 会顺带探 mongo / redis / 上传卷可写，任一项不通过就是 503
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - wink
+
+  web:
+    build:
+      context: ./web
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-100}
+    # 整个包唯一对外的端口
+    ports:
+      - "${PORT:-8080}:80"
+    volumes:
+      # 与 app 挂同一个宿主机目录、容器内路径一致，否则「上传成功但 404」
+      - ${UPLOADS_DIR:-./data/uploads}:/data/uploads:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks:
+      - wink
+
+volumes:
+  mongo_data:
+  redis_data:
+
+networks:
+  wink:
+    driver: bridge

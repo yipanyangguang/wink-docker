@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+*.log
+data/
+web/dist/
+app/dist/
+# yarn 4 的安装状态缓存，不进仓库
+.yarn/install-state.gz
+web/.yarn/

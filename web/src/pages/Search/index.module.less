@@ -1,0 +1,127 @@
+.app {
+  background-color: #efeff4;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding-bottom: calc(106px + env(safe-area-inset-bottom, 0px));
+
+  .inputWrap {
+    box-sizing: border-box;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(239, 239, 244, 0.75);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    transition: background 0.3s ease;
+
+    .searchBar {
+      display: flex;
+      align-items: center;
+      background: rgba(118, 118, 128, 0.12);
+      border-radius: 12px;
+      padding: 0 12px;
+      height: 40px;
+      gap: 8px;
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+
+      .searchIcon {
+        font-size: 18px;
+        color: rgba(60, 60, 67, 0.45);
+        flex-shrink: 0;
+      }
+
+      .searchInput {
+        flex: 1;
+        background: transparent;
+        border: none;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        color: #1c1c1e;
+        padding: 0;
+
+        &::placeholder {
+          color: rgba(60, 60, 67, 0.4);
+        }
+      }
+
+      .searchBtn {
+        border: 0;
+        background: transparent;
+        font-size: 14px;
+        color: #007aff;
+        font-weight: 500;
+        flex-shrink: 0;
+        padding: 4px 2px;
+        cursor: pointer;
+        user-select: none;
+
+        &:active {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  .inputWrapFocused {
+    .searchBar {
+      background: rgba(118, 118, 128, 0.18);
+      box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.25);
+    }
+  }
+
+  .errorState {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #8e8e93;
+
+    button {
+      border: 0;
+      background: transparent;
+      color: #007aff;
+      font-size: inherit;
+      cursor: pointer;
+      padding: 6px;
+    }
+  }
+
+  .progressWrap {
+    position: fixed;
+    bottom: calc(92px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 99;
+
+    .progressBar {
+      width: 80px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      overflow: hidden;
+
+      .progressFill {
+        height: 100%;
+        background: #fff;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .progressText {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+      white-space: nowrap;
+    }
+  }
+}

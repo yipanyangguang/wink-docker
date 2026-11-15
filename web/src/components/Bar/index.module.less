@@ -1,0 +1,75 @@
+.barWarp {
+  view-transition-name: main-tab-bar;
+  position: fixed;
+  z-index: 100;
+  left: 16px;
+  right: 16px;
+  max-width: 568px;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  height: 68px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 78px;
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(0, 0, 0, 0.05);
+  transition: all 0.58s ease-in-out;
+
+  .item {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+
+    img {
+      height: 32px;
+    }
+
+    .avatar {
+      border-radius: 16px;
+      object-fit: cover;
+      width: 32px;
+      height: 32px;
+      opacity: 0.8;
+    }
+
+    span {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+  }
+
+  .active {
+    img {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    span {
+      color: #111;
+      font-weight: 600;
+    }
+  }
+}
+
+:global(::view-transition-group(main-tab-bar)) {
+  animation-duration: 180ms;
+  animation-timing-function: ease;
+}
+
+:global(::view-transition-old(main-tab-bar)),
+:global(::view-transition-new(main-tab-bar)) {
+  mix-blend-mode: normal;
+}

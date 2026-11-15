@@ -1,0 +1,167 @@
+.page {
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: calc(20px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+  background: #f5f5f7;
+}
+
+.header {
+  margin-bottom: 16px;
+}
+
+.title {
+  color: #1a1a1a;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 4px;
+  color: #98a2b3;
+  font-size: 13px;
+}
+
+.state {
+  padding: 48px 16px;
+  color: #667085;
+  font-size: 14px;
+  text-align: center;
+
+  p {
+    margin: 12px 0 16px;
+  }
+}
+
+.stateTitle {
+  color: #344054;
+  font-size: 16px;
+}
+
+.errorText {
+  margin: 8px 0 12px;
+  color: #ff3b30;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.04);
+
+  & + & {
+    margin-top: 14px;
+  }
+}
+
+.cardTitle {
+  margin-bottom: 12px;
+  color: #344054;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.defaultHint {
+  margin-bottom: 12px;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.empty {
+  padding: 20px 0;
+  color: #98a2b3;
+  font-size: 14px;
+  text-align: center;
+}
+
+.memberList {
+  list-style: none;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f1f3;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.memberName {
+  color: #344054;
+  font-size: 15px;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.memberMeta {
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.deleteBtn {
+  flex: none;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 59, 48, 0.08);
+  color: #ff3b30;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.input {
+  height: 48px;
+  margin-bottom: 12px;
+  font-size: 16px;
+
+  input {
+    font-size: 16px;
+  }
+}
+
+.switchRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+
+  & + & {
+    border-top: 1px solid #f0f1f3;
+  }
+}
+
+.switchText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.switchLabel {
+  color: #344054;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.switchDesc {
+  color: #98a2b3;
+  font-size: 12px;
+  line-height: 1.5;
+}
