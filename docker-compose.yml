@@ -70,6 +70,8 @@ services:
       - wink
 
   app:
+    # 优先从 Docker Hub 拉取（install.sh 默认拉取模式）；--build 时在本地构建并打同名 tag
+    image: ${APP_IMAGE:-yipanzwx/wink-app:latest}
     build:
       context: ./app
     restart: unless-stopped
@@ -125,6 +127,7 @@ services:
       - wink
 
   web:
+    image: ${WEB_IMAGE:-yipanzwx/wink-web:latest}
     build:
       context: ./web
     restart: unless-stopped

@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 # 瞬间 · 一键安装 / 升级
-#   首次：./install.sh        生成 .env 随机凭据 → 建目录 → 构建 → 起服务 → 等健康检查
-#   升级：./install.sh        重新构建镜像并滚动重启，数据卷与上传目录不动
+#   默认：./install.sh           从 Docker Hub 拉取镜像（无需本地编译）
+#   本地构建：./install.sh --build   用仓库源码构建镜像再启动（二次开发用）
+#   升级：./install.sh           重新拉取/构建镜像并滚动重启，数据卷与上传目录不动
 set -euo pipefail
 
 cd "$(dirname "$0")"
+
+BUILD_MODE=0
+[ "${1:-}" = "--build" ] && BUILD_MODE=1
+if [ $# -gt 0 ] && [ "$1" != "--build" ]; then
+  echo "用法：./install.sh [--build]" >&2
+  exit 1
+fi
 
 info() { printf '\033[32m[瞬间]\033[0m %s\n' "$1"; }
 warn() { printf '\033[33m[瞬间]\033[0m %s\n' "$1"; }
@@ -87,9 +95,22 @@ if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/
   fi
 fi
 
-# ---------- 3. 构建并启动 ----------
-info "开始构建镜像（首次需要几分钟，编译在你本机完成，架构自动匹配）"
-docker compose up -d --build
+# ---------- 3. 构建或拉取镜像并启动 ----------
+if [ "$BUILD_MODE" -eq 1 ]; then
+  info "本地构建镜像（首次需要几分钟，编译在你本机完成，架构自动匹配）"
+  docker compose up -d --build
+else
+  info "从 Docker Hub 拉取镜像（yipanzwx/wink-app、yipanzwx/wink-web）…"
+  if docker compose pull app web; then
+    docker compose up -d
+  elif [ -d app/src ] && [ -d web/src ]; then
+    # 拉取失败（无外网 / 限流）且本地有源码时回落到本地构建
+    warn "镜像拉取失败，改用本地源码构建…"
+    docker compose up -d --build
+  else
+    die "镜像拉取失败且目录内没有源码。检查网络后重试，或克隆完整仓库后用 ./install.sh --build"
+  fi
+fi
 
 # ---------- 4. 等健康检查 ----------
 info "等待服务就绪…"

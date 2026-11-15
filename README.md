@@ -5,7 +5,11 @@
 ## 快速开始
 
 ```bash
+# 默认从 Docker Hub 拉取镜像（yipanzwx/wink-app、yipanzwx/wink-web，双架构）
 ./install.sh
+
+# 或从本源码构建镜像（二次开发 / 拉不到镜像时）
+./install.sh --build
 ```
 
 然后浏览器打开 `http://<主机IP>:8080`：
@@ -51,6 +55,6 @@ wink-docker/
 
 ## 升级 / 维护
 
-- 改了代码后重新执行 `./install.sh`：会重新构建镜像并重启容器，**数据库与上传文件全部保留**，已有密码不会被重置。
+- 升级：重新执行 `./install.sh`，会拉取（或 `--build` 时重新构建）最新镜像并重启容器，**数据库与上传文件全部保留**，已有密码不会被重置。
 - `docker compose down && docker compose up -d`：重启全部服务，数据不丢。
 - 日常备份见 [docs/backup-restore.md](docs/backup-restore.md)。

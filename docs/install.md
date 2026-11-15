@@ -5,16 +5,23 @@
 | 项 | 要求 |
 |---|---|
 | Docker | 20.10+，带 `docker compose` 插件 |
-| 架构 | arm64 与 x86_64 均可，镜像从本机源码构建，架构自动匹配，无需选择 |
-| 网络 | 首次构建需能拉取 `node:20-bookworm-slim`、`nginx:alpine`、`mongo:7`、`redis:7-alpine` 基础镜像 |
+| 架构 | arm64 与 x86_64 均可：默认拉取 Docker Hub 镜像（双架构已构建好），`--build` 模式从本机源码构建 |
+| 网络 | 能访问 Docker Hub；拉不到且本地有源码时 install.sh 会自动回落到本地构建 |
 | 磁盘 | 建议 ≥ 2GB 剩余空间（镜像约 600MB + 数据） |
 | 端口 | 默认占用 8080，可在 `.env` 改 `PORT` |
 
 ## 安装步骤
 
+两种方式任选：
+
 ```bash
+# 方式一（推荐）：拉取 Docker Hub 镜像，无需本地编译
 cd wink-docker
 ./install.sh
+
+# 方式二：从源码本地构建（二次开发 / 无网环境）
+cd wink-docker
+./install.sh --build
 ```
 
 脚本会依次做这些事（全程无需人工输入）：
@@ -22,7 +29,7 @@ cd wink-docker
 1. 不存在 `.env` 时，从 `.env.example` 复制一份，随机生成 Mongo / Redis 密码并写入；
 2. 创建 `data/uploads`、`data/backups` 目录并设置权限（属主与当前用户一致）；
 3. 检查端口占用；
-4. 本地构建 `wink-app`、`wink-web` 两个镜像并启动四个容器；
+4. 拉取 `yipanzwx/wink-app`、`yipanzwx/wink-web` 镜像（`--build` 则本地构建）并启动四个容器；
 5. 轮询 `/api/health` 直到全部就绪（最长 3 分钟）；
 6. 若 `.env` 预置了管理员且初始化成功，自动清空 `.env` 里的 `ADMIN_PASSWORD`。
 
@@ -66,7 +73,7 @@ curl http://127.0.0.1:8080/api/health   # {"healthy":true,...}
 
 - 已有的 Mongo / Redis 密码**不会**被重置（重置会导致旧数据卷连不上）；
 - 数据库内容、上传文件、账号全部保留；
-- 只会重新构建镜像并重建容器。
+- 只会重新拉取（或 `--build` 时重新构建）镜像并重建容器。
 
 ## 卸载
 
