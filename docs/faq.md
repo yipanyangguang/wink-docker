@@ -60,5 +60,5 @@ docker compose logs app --tail 50 # 看后端报错
 **Q：启动时报 `container wink-mongo-1 is unhealthy` / 日志里一堆 `SCRAM authentication failed`？**
 数据卷已用**旧密码**初始化，与 `.env` 里的 `MONGO_PASSWORD` 不匹配。`MONGO_INITDB_*` 只在数据卷**首次空卷建库**时生效，之后改 `.env` 不会同步到库内用户（这也是 `.env` 里提醒「初始化过数据卷后不要再改凭据」的原因）。两种处理：
 - 保留数据：用旧密码进容器把用户密码改回 `.env` 里的值（`mongosh -u wink --authenticationDatabase admin` → `db.updateUser("wink", {pwd: "新密码"})`）；
-- 清空重建（丢库内全部数据）：`docker compose down -v && ./install.sh`。
+- 清空重建（丢库内全部数据）：`./uninstall-purge.sh && ./install.sh`（或直接 `docker compose down -v && ./install.sh`；前者还会清掉上传文件、备份和 `.env`，重装走完整首次安装流程）。
 `./install.sh` 现在会自动识别这种场景并直接给出上述指引，不再傻等健康检查超时。

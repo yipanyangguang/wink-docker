@@ -49,12 +49,14 @@ wink-docker/
 │   └── backups/         # 每日数据库 JSON 备份
 ├── docker-compose.yml   # 四容器编排，只有 web 发布端口
 ├── install.sh           # 一键安装 / 升级
-├── uninstall.sh         # 卸载（--purge 才删数据）
+├── uninstall.sh         # 卸载：保留数据
+├── uninstall-purge.sh   # 卸载：彻底清除（不可恢复，重装走完整流程）
 └── .env.example         # 配置模板
 ```
 
 ## 升级 / 维护
 
 - 升级：重新执行 `./install.sh`，会拉取（或 `--build` 时重新构建）最新镜像并重启容器，**数据库与上传文件全部保留**，已有密码不会被重置。
+- 卸载：`./uninstall.sh` 只停服务、数据全留；`./uninstall-purge.sh` 彻底删除数据卷、上传文件、备份、`.env` 与应用镜像，之后重装走完整首次安装流程。
 - `docker compose down && docker compose up -d`：重启全部服务，数据不丢。
 - 日常备份见 [docs/backup-restore.md](docs/backup-restore.md)。

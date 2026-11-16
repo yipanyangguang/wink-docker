@@ -248,8 +248,9 @@ export const deleteCommentApi = (commentId: string) => {
 /** 获取话题的背景图 */
 export const getTopicBgApi = (topic: string) => {
   return axiosGet(`/api/wink/get_topic_background?topic=${topic}`) as Promise<{
-    data: string;
-    error?: string;
+    data: string | null;
+    error?: number;
+    msg?: string;
   }>;
 };
 

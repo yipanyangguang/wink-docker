@@ -26,8 +26,8 @@ const App = () => {
   const [bgActionVisible, setBgActionVisible] = useState(false);
 
   const refreshTopicBg = async () => {
-    const { data } = await getTopicBgApi(topic);
-    setTopicBg(data || "");
+    const { data, error } = await getTopicBgApi(topic);
+    setTopicBg(!error && data ? data : "");
   };
 
   const init = async () => {
@@ -98,7 +98,7 @@ const App = () => {
 
   useEffect(() => {
     init();
-  }, []);
+  }, [topic]);
 
   useEffect(() => setChannelFavicon(topicBg), [topicBg]);
 

@@ -174,4 +174,5 @@ else
 fi
 echo "  查看状态：docker compose ps"
 echo "  查看日志：docker compose logs -f app"
-echo "  停止服务：docker compose down   （数据卷与上传目录都会保留）"
+echo "  停止服务：./uninstall.sh   （只停容器，数据全留）"
+echo "  彻底清除：./uninstall-purge.sh   （删卷、文件、.env、镜像，不可恢复）"
